@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
+import CoinGeckoService from './services/coinGeckoService';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +20,18 @@ mongoose
 
 app.get('/', (req, res) => {
   res.send('Cryptocurrency Price Tracker API is running.');
+});
+
+app.get('/api/prices', async (req, res) => {
+  try {
+    const prices = await CoinGeckoService.getSimplePrice(
+      ['bitcoin', 'ethereum'],
+      ['usd']
+    );
+    res.json(prices);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch prices' });
+  }
 });
 
 app.listen(PORT, () => {
