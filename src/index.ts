@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 import http from 'http';
 import WebSocketServer from './websocketServer';
 import PriceUpdater from './schedulers/priceUpdater';
+import userRoutes from './routes/userRoutes';
+import alertRoutes from './routes/alertRoutes';
+import portfolioRoutes from './routes/portfolioRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,9 +14,14 @@ const MONGODB_URI = process.env.MONGODB_URI || '';
 
 app.use(express.json());
 
+// Routes
 app.get('/', (req, res) => {
   res.send('Cryptocurrency Price Tracker API is running.');
 });
+
+app.use('/api/users', userRoutes);
+app.use('/api/alerts', alertRoutes);
+app.use('/api/portfolio', portfolioRoutes);
 
 mongoose
   .connect(MONGODB_URI)
