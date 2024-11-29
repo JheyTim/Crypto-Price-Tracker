@@ -23,6 +23,19 @@ export const createAlert = async (
   }
 };
 
+export const getAllAlerts = async (
+  _req: Request & { userId?: string },
+  res: Response
+): Promise<void> => {
+  try {
+    const alerts = await Alert.find();
+
+    res.json(alerts);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve alerts' });
+  }
+};
+
 export const deleteAlert = async (
   req: Request & { userId?: string },
   res: Response
