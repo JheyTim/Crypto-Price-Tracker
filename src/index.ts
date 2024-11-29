@@ -5,6 +5,7 @@ import http from 'http';
 import WebSocketServer from './websocketServer';
 import PriceUpdater from './schedulers/priceUpdater';
 import AlertChecker from './schedulers/alertChecker';
+import PortfolioHistoryUpdater from './schedulers/portfolioHistoryUpdater';
 import userRoutes from './routes/userRoutes';
 import alertRoutes from './routes/alertRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
@@ -39,10 +40,11 @@ const server = http.createServer(app);
 // Initialize WebSocket Server
 const wsServer = new WebSocketServer(server);
 
-// After initializing the WebSocket server
 const priceUpdater = new PriceUpdater(wsServer);
 const alertChecker = new AlertChecker();
+const portfolioHistoryUpdater = new PortfolioHistoryUpdater();
 
+portfolioHistoryUpdater.start();
 alertChecker.start();
 priceUpdater.start();
 

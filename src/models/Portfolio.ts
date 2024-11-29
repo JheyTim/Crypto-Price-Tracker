@@ -3,6 +3,7 @@ import { Schema, model, Document, Types } from 'mongoose';
 export interface IPortfolioItem {
   coinId: string;
   amount: number;
+  averageBuyPrice: number;
 }
 
 export interface IPortfolio extends Document {
@@ -15,6 +16,7 @@ export interface IPortfolio extends Document {
 const portfolioItemSchema = new Schema<IPortfolioItem>({
   coinId: { type: String, required: true },
   amount: { type: Number, required: true },
+  averageBuyPrice: { type: Number, required: true },
 });
 
 const portfolioSchema = new Schema<IPortfolio>(
