@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import http from 'http';
 import WebSocketServer from './websocketServer';
 import PriceUpdater from './schedulers/priceUpdater';
+import AlertChecker from './schedulers/alertChecker';
 import userRoutes from './routes/userRoutes';
 import alertRoutes from './routes/alertRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
@@ -40,6 +41,9 @@ const wsServer = new WebSocketServer(server);
 
 // After initializing the WebSocket server
 const priceUpdater = new PriceUpdater(wsServer);
+const alertChecker = new AlertChecker();
+
+alertChecker.start();
 priceUpdater.start();
 
 server.listen(PORT, () => {
