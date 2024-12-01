@@ -19,5 +19,6 @@ export interface CoinMarketData {
 
 export interface MarketChartResponse {
   prices: [number, number][];
-  // Include other fields like market_caps, total_volumes if needed
+  market_caps: [number, number][];
+  total_volumes: [number, number][];
 }

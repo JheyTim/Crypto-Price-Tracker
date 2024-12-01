@@ -56,12 +56,14 @@ class CoinGeckoService {
   static async getMarketChart(
     coinId: string,
     vsCurrency: string,
-    days: number
+    days: string,
+    interval?: string
   ): Promise<MarketChartResponse> {
     try {
       const params = {
         vs_currency: vsCurrency,
-        days: days.toString(),
+        days,
+        interval
       };
 
       const response = await axios.get<MarketChartResponse>(
@@ -70,7 +72,7 @@ class CoinGeckoService {
       );
       return response.data;
     } catch (error) {
-      console.error('Error fetching market chart:', error);
+      console.error(`Error fetching market chart data for ${coinId}:`, error);
       throw error;
     }
   }

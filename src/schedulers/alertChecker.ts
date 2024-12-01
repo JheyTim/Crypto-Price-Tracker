@@ -1,7 +1,6 @@
 import nodeCron from 'node-cron';
 import Alert from '../models/Alert';
 import CoinGeckoService from '../services/coinGeckoService';
-import User from '../models/User';
 
 class AlertChecker {
   public start() {

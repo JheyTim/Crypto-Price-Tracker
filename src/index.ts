@@ -6,9 +6,11 @@ import WebSocketServer from './websocketServer';
 import PriceUpdater from './schedulers/priceUpdater';
 import AlertChecker from './schedulers/alertChecker';
 import PortfolioHistoryUpdater from './schedulers/portfolioHistoryUpdater';
+import DataCollector from './schedulers/dataCollector';
 import userRoutes from './routes/userRoutes';
 import alertRoutes from './routes/alertRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
+import analysisRoutes from './routes/analysisRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,6 +26,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/analysis', analysisRoutes);
 
 mongoose
   .connect(MONGODB_URI)
@@ -43,7 +46,9 @@ const wsServer = new WebSocketServer(server);
 const priceUpdater = new PriceUpdater(wsServer);
 const alertChecker = new AlertChecker();
 const portfolioHistoryUpdater = new PortfolioHistoryUpdater();
+const dataCollector = new DataCollector();
 
+dataCollector.start();
 portfolioHistoryUpdater.start();
 alertChecker.start();
 priceUpdater.start();
