@@ -39,9 +39,9 @@ Make sure you have the following installed on your system:
    ```
 3. Set up the environment variables. Create a .env file in the root directory and add the following:
    ```env
-  PORT=3000
-  MONGODB_URI=mongodb://localhost:27017/crypto-price-tracker
-  JWT_SECRET=my-jwt-secret
+   PORT=3000
+   MONGODB_URI=mongodb://localhost:27017/crypto-price-tracker
+   JWT_SECRET=my-jwt-secret
    ```
 4. Start the application:
    ```bash
