@@ -1,18 +1,19 @@
 import nodeCron from 'node-cron';
 import Alert from '../models/Alert';
 import CoinGeckoService from '../services/coinGeckoService';
+import logger from '../utils/logger';
 
 class AlertChecker {
   public start() {
     // Schedule the task to run every minute
     nodeCron.schedule('* * * * *', async () => {
-      console.log('Checking alerts...');
+      logger.info('Checking alerts...');
       try {
         // Step 1: Fetch all active alerts
         const alerts = await Alert.find().populate('userId');
 
         if (alerts.length === 0) {
-          console.log('No alerts to process.');
+          logger.info('No alerts to process.');
           return;
         }
 
@@ -27,7 +28,7 @@ class AlertChecker {
           const currentPrice = prices[alert.coinId]?.usd;
 
           if (typeof currentPrice === 'undefined') {
-            console.warn(`Price for ${alert.coinId} not found`);
+            logger.warn(`Price for ${alert.coinId} not found`);
             continue;
           }
 
@@ -47,7 +48,7 @@ class AlertChecker {
 
           if (conditionMet) {
             // Step 5: Send notification (You can use email or sms notification, for now I used console.log)
-            console.log(
+            logger.info(
               `Your alert for ${alert.coinId} has been triggered.\n\nCurrent Price: $${currentPrice}\nTarget Price: $${alert.targetPrice}\nDirection: ${alert.direction}\n\nThank you for using our service!`
             );
 
@@ -56,7 +57,7 @@ class AlertChecker {
           }
         }
       } catch (error) {
-        console.error('Error checking alerts:', error);
+        logger.error('Error checking alerts:', error)
       }
     });
   }

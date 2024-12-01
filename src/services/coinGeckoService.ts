@@ -4,6 +4,7 @@ import {
   CoinMarketData,
   MarketChartResponse,
 } from '../types/coinGecko';
+import logger from '../utils/logger';
 
 const BASE_URL = 'https://api.coingecko.com/api/v3';
 
@@ -25,7 +26,7 @@ class CoinGeckoService {
       );
       return response.data;
     } catch (error) {
-      console.error('Error fetching simple price data:', error);
+      logger.error('Error fetching simple price data:', error);
       throw error;
     }
   }
@@ -47,7 +48,7 @@ class CoinGeckoService {
       );
       return response.data;
     } catch (error) {
-      console.error('Error fetching coin market data:', error);
+      logger.error('Error fetching coin market data:', error);
       throw error;
     }
   }
@@ -63,7 +64,7 @@ class CoinGeckoService {
       const params = {
         vs_currency: vsCurrency,
         days,
-        interval
+        interval,
       };
 
       const response = await axios.get<MarketChartResponse>(
@@ -72,7 +73,7 @@ class CoinGeckoService {
       );
       return response.data;
     } catch (error) {
-      console.error(`Error fetching market chart data for ${coinId}:`, error);
+      logger.error(`Error fetching market chart data for ${coinId}:`, error);
       throw error;
     }
   }
@@ -85,7 +86,7 @@ class CoinGeckoService {
       const response = await axios.get(`${BASE_URL}/coins/list`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching coin list:', error);
+      logger.error('Error fetching coin list:', error);
       throw error;
     }
   }

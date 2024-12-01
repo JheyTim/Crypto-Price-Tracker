@@ -2,12 +2,13 @@ import nodeCron from 'node-cron';
 import Portfolio from '../models/Portfolio';
 import PortfolioHistory from '../models/PortfolioHistory';
 import CoinGeckoService from '../services/coinGeckoService';
+import logger from '../utils/logger';
 
 class PortfolioHistoryUpdater {
   public start() {
     // Schedule the task to run every day at midnight
     nodeCron.schedule('0 0 * * *', async () => {
-      console.log('Saving portfolio history...');
+      logger.info('Saving portfolio history...');
       try {
         // Fetch all portfolios
         const portfolios = await Portfolio.find();
@@ -43,7 +44,7 @@ class PortfolioHistoryUpdater {
           await portfolioHistory.save();
         }
       } catch (error) {
-        console.error('Error saving portfolio history:', error);
+        logger.error('Error saving portfolio history:', error);
       }
     });
   }

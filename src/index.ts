@@ -11,6 +11,7 @@ import userRoutes from './routes/userRoutes';
 import alertRoutes from './routes/alertRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
 import analysisRoutes from './routes/analysisRoutes';
+import logger from './utils/logger';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,10 +32,10 @@ app.use('/api/analysis', analysisRoutes);
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
-    console.log('Connected to MongoDB');
+    logger.info('Connected to MongoDB');
   })
   .catch((error) => {
-    console.error('MongoDB connection error:', error);
+    logger.error('MongoDB connection error:', error);
   });
 
 // Create HTTP server and integrate with Express
@@ -54,5 +55,5 @@ alertChecker.start();
 priceUpdater.start();
 
 server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  logger.info(`Server is running on port ${PORT}`);
 });

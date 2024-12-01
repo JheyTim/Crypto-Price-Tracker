@@ -1,6 +1,7 @@
 import CoinGeckoService from '../services/coinGeckoService';
 import WebSocketServer from '../websocketServer';
 import nodeCron from 'node-cron';
+import logger from '../utils/logger';
 
 class PriceUpdater {
   constructor(private readonly wsServer: WebSocketServer) {}
@@ -11,7 +12,7 @@ class PriceUpdater {
   }
 
   private async updatePrices(): Promise<void> {
-    console.log('Fetching latest prices...');
+    logger.info('Fetching latest prices...');
     try {
       const prices = await CoinGeckoService.getSimplePrice(
         ['bitcoin', 'ethereum'],
@@ -24,7 +25,7 @@ class PriceUpdater {
         data: prices,
       });
     } catch (error) {
-      console.error('Error fetching prices:', error);
+      logger.error('Error fetching prices:', error);
     }
   }
 }
