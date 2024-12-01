@@ -17,7 +17,7 @@ async function testCoinGeckoService() {
     const marketChart = await CoinGeckoService.getMarketChart(
       'bitcoin',
       'usd',
-      7
+      '7'
     );
     console.log('Market Chart Data:', marketChart);
 
